@@ -16,7 +16,7 @@ const buscarGatoId = async (request, response) => {
             })
         }
         const gato = await GatoSchema.find({ id })
-        if (cachorro.length == 0) {
+        if (gato.length == 0) {
             return response.status(200).json({ message: `O doador não foi encontrado.` })
         }
         response.status(200).json({ message: `Doador correspondente ao id [${id}]:`, gato })
@@ -96,12 +96,12 @@ try {
         contato: contato.toUpperCase()  
 
     })
-    if (idade_do_pet < 1 || idade_do_pet > 8){ 
+    if (idade_do_pet < 1 || idade_do_pet > 7){ 
         response.status(404).json({
             message:`Infelizmente o pet não atende ao pré-requisito da faixa etária para doadores de sangue`
         })
     }
-    if(peso_do_pet < 25){
+    if(peso_do_pet < 4){
         response.status(404).json({
             message:`Infelizmente o pet não atende ao pré-requisito da faixa de peso para doadores de sangue`
         })
