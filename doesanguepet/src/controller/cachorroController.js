@@ -2,6 +2,23 @@ const mongoose = require('mongoose');
 const CachorroSchema = require('../models/CachorroSchema');
 
 
+const buscarTodosCachorros = async (request, response) => {
+    try {
+        const cachorro = await CachorroSchema.find()
+        if (cachorro.length > 1) {
+            return response.status(200).json({ message: `Foram encontrados ${cachorro.length} doadores`, cachorro })
+        } else if (cachorro.length == 1) {
+            return response.status(200).json({ message: `Foram encontrados ${cachorro.length} doadores`, cachorro })
+        } else {
+            return response.status(200).json({ message: `Nenhum doador encontrado`})
+        }
+    } catch (error) {
+        response.status(500).json({
+            message: error.message
+        })
+    }
+}
+
 const buscarCachorroId = async (request, response) => {
     const { id } = request.params
     try {
@@ -20,23 +37,6 @@ const buscarCachorroId = async (request, response) => {
             return response.status(200).json({ message: `O doador não foi encontrado.` })
         }
         response.status(200).json({ message: `Doador correspondente ao id [${id}]:`, cachorro })
-    } catch (error) {
-        response.status(500).json({
-            message: error.message
-        })
-    }
-}
-
-const buscarTodosCachorros = async (request, response) => {
-    try {
-        const cachorro = await CachorroSchema.find()
-        if (cachorro.length > 1) {
-            return response.status(200).json({ message: `Foram encontrados ${cachorro.length} doadores`, cachorro })
-        } else if (cachorro.length == 1) {
-            return response.status(200).json({ message: `Foram encontrados ${cachorro.length} doadores`, cachorro })
-        } else {
-            return response.status(200).json({ message: `Nenhum doador encontrado`})
-        }
     } catch (error) {
         response.status(500).json({
             message: error.message
@@ -139,6 +139,61 @@ try {
     })
 }}
 
+
+const atualizarCadastroCachorro = async (request, response) => {
+
+        const {
+            tutor, 
+            CPF, 
+            nome_do_pet, 
+            idade_do_pet,
+            peso_do_pet,
+            vermifugacao_atualizada,
+            vacinacao_atualizada, 
+            tipo_sanguineo,
+            historico_de_doenca,
+            ja_realizou_tranfusao,
+            endereco,
+            email, 
+            contato
+        } = request.body;
+
+        const {id} = request.params
+        try{
+        const cachorro = await CachorroSchema.find({id}).updateOne({
+            tutor, 
+            CPF, 
+            nome_do_pet, 
+            idade_do_pet,
+            peso_do_pet,
+            vermifugacao_atualizada,
+            vacinacao_atualizada, 
+            tipo_sanguineo,
+            historico_de_doenca,
+            ja_realizou_tranfusao,
+            endereco, 
+            email, 
+            contato
+        }) 
+     
+
+        const cachorroAtualizado = await CachorroSchema.find({id})
+        if (cachorroAtualizado.length == 0) {
+            return response.status(404).json({
+              message: `Pet não encontrado`
+            });
+          }
+        response.status(200).json({
+            message: "Pet atualizado com sucesso",
+            cachorroAtualizado
+        })
+    }catch (error) {
+        response.status(400).json({
+            message: error.message
+        })
+    }
+}
+
 const deletarCadastroCachorro = async (request, response) => {
     const { id } = request.params
     try {
@@ -166,86 +221,10 @@ const deletarCadastroCachorro = async (request, response) => {
 }
 
 
-const atualizarCadastroCachorro = async (request, response) => {
-    const { id } = request.params
-    const { 
-        tutor, 
-        CPF, 
-        nome_do_pet, 
-        idade_do_pet,
-        peso_do_pet,
-        vermifugacao_atualizada,
-        vacinacao_atualizada, 
-        tipo_sanguineo,
-        historico_de_doenca,
-        ja_realizou_tranfusao, 
-        endereco: {
-            cep,
-            rua,
-            numero,
-            complemento,
-            referencia,
-            bairro,
-            cidade,
-            estado
-        }, 
-        email, 
-        contato } = request.body;
-    try {
-        if (id.length > 24) {
-            return response.status(404).json({
-                Alerta: `Por favor digite o id corretamente com 24 caracteres. Caracter a mais: ${id.length - 24}.`
-            })
-        }
-        if (id.length < 24) {
-            return response.status(404).json({
-                Alerta: `Por favor digite o id corretamente com 24 caracteres. Caracter a menos: ${24 - id.length}.`
-            })
-        }
-        const cadastroCachorroEncontrado = await CachorroSchema.updateOne({
-            tutor: tutor.toUpperCase(),
-            CPF: CPF,
-            nome_do_pet: nome_do_pet.toUpperCase(),
-            idade_do_pet: idade_do_pet,
-            peso_do_pet: peso_do_pet,
-            vermifugacao_atualizada: vermifugacao_atualizada.toUpperCase(),
-            vacinacao_atualizada: vacinacao_atualizada.toUpperCase(), 
-            tipo_sanguineo: tipo_sanguineo.toUpperCase(),
-            historico_de_doenca: historico_de_doenca.toUpperCase(),
-            ja_realizou_tranfusao: ja_realizou_tranfusao.toUpperCase(), 
-            endereco: {
-                cep: cep.toUpperCase(),
-                rua: rua.toUpperCase(),
-                numero: numero.toUpperCase(),
-                complemento:complemento.toUpperCase(),
-                referencia: referencia.toUpperCase(),
-                bairro: bairro.toUpperCase(),
-                cidade: cidade.toUpperCase(),
-                estado: estado.toUpperCase()
-            },
-            email: email.toUpperCase(),
-            contato: contato.toUpperCase()  
-    
-        })
-        const cadastroCachorroAtualizado = await CachorroSchema.find({ id })
-        if (cadastroCachorroAtualizado.length == 0) {
-            return response.status(404).json({
-                message: `Doador não encontrado.`
-            })
-        }
-        response.json({ cadastroCachorroAtualizado })
-    } catch (error) {
-        response.status(500).json({
-            message: error.message
-        })
-    }
-}
-
-
 module.exports = {
-    buscarCachorroId,
     buscarTodosCachorros,
+    buscarCachorroId,
     criarCadastroCachorro,
-    deletarCadastroCachorro,
-    atualizarCadastroCachorro
+    atualizarCadastroCachorro,
+    deletarCadastroCachorro
 }

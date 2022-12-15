@@ -140,8 +140,8 @@ try {
 }}
 
 const atualizarCadastroGato = async (request, response) => {
-    const { id } = request.params
-    const { 
+
+    const {
         tutor, 
         CPF, 
         nome_do_pet, 
@@ -151,32 +151,16 @@ const atualizarCadastroGato = async (request, response) => {
         vacinacao_atualizada, 
         tipo_sanguineo,
         historico_de_doenca,
-        ja_realizou_tranfusao, 
-        endereco: {
-            cep,
-            rua,
-            numero,
-            complemento,
-            referencia,
-            bairro,
-            cidade,
-            estado
-        }, 
+        ja_realizou_tranfusao,
+        endereco,
         email, 
-        contato } = request.body;
-    try {
-        if (id.length > 24) {
-            return response.status(404).json({
-                Alerta: `Por favor digite o id corretamente com 24 caracteres. Caracter a mais: ${id.length - 24}.`
-            })
-        }
-        if (id.length < 24) {
-            return response.status(404).json({
-                Alerta: `Por favor digite o id corretamente com 24 caracteres. Caracter a menos: ${24 - id.length}.`
-            })
-        }
-        const cadastroGatoEncontrado = await GatoSchema.updateOne({
-            tutor, 
+        contato
+    } = request.body;
+
+    const {id} = request.params
+    try{
+    const gato = await GatoSchema.find({id}).updateOne({
+        tutor, 
         CPF, 
         nome_do_pet, 
         idade_do_pet,
@@ -185,32 +169,28 @@ const atualizarCadastroGato = async (request, response) => {
         vacinacao_atualizada, 
         tipo_sanguineo,
         historico_de_doenca,
-        ja_realizou_tranfusao, 
-        endereco: {
-            cep,
-            rua,
-            numero,
-            complemento,
-            referencia,
-            bairro,
-            cidade,
-            estado
-        }, 
+        ja_realizou_tranfusao,
+        endereco, 
         email, 
         contato
-        })
-        const cadastroGatoAtualizado = await GatoSchema.find({ id })
-        if (cadastroGatoAtualizado.length == 0) {
-            return response.status(404).json({
-                message: `Doador não encontrado.`
-            })
-        }
-        response.json({ cadastroCachorroAtualizado })
-    } catch (error) {
-        response.status(500).json({
-            message: error.message
-        })
-    }
+    }) 
+ 
+
+    const gatoAtualizado = await GatoSchema.find({id})
+    if (gatoAtualizado.length == 0) {
+        return response.status(404).json({
+          message: `Pet não encontrado`
+        });
+      }
+    response.status(200).json({
+        message: "Pet atualizado com sucesso",
+        gatoAtualizado
+    })
+}catch (error) {
+    response.status(400).json({
+        message: error.message
+    })
+}
 }
 const deletarCadastroGato = async (request, response) => {
     const { id } = request.params
