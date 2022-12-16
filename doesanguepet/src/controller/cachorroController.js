@@ -175,8 +175,7 @@ const atualizarCadastroCachorro = async (request, response) => {
             email, 
             contato
         }) 
-     
-
+        
         const cachorroAtualizado = await CachorroSchema.find({id})
         if (cachorroAtualizado.length == 0) {
             return response.status(404).json({

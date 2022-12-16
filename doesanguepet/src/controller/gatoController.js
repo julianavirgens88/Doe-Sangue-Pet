@@ -97,32 +97,32 @@ try {
 
     })
     if (idade_do_pet < 1 || idade_do_pet > 7){ 
-        response.status(404).json({
+        return response.status(404).json({
             message:`Infelizmente o pet não atende ao pré-requisito da faixa etária para doadores de sangue`
         })
     }
     if(peso_do_pet < 4){
-        response.status(404).json({
+        return response.status(404).json({
             message:`Infelizmente o pet não atende ao pré-requisito da faixa de peso para doadores de sangue`
         })
     }
     if(vermifugacao_atualizada != "sim"){
-        response.status(404).json({
+        return response.status(404).json({
             message: `Infelizmente o pet não atende ao pré-requisito da vermifugação para doadores de sangue`
         })
     }
     if(vacinacao_atualizada != "sim"){
-        response.status(404).json({
+        return response.status(404).json({
             message: `Infelizmente o pet não atende ao pré-requisito da vacinação para doadores de sangue`
         })
     }
     if(historico_de_doenca == "sim"){
-        response.status(404).json({
+        return response.status(404).json({
             message: `Infelizmente o pet não atende ao pré-requisito de historico de doenças para doadores de sangue`
         })
     }
     if(ja_realizou_tranfusao == "sim"){
-        response.status(404).json({
+        return response.status(404).json({
             message: `Infelizmente o pet não poderá ser cadastrado`
         })
 
@@ -174,7 +174,6 @@ const atualizarCadastroGato = async (request, response) => {
         email, 
         contato
     }) 
- 
 
     const gatoAtualizado = await GatoSchema.find({id})
     if (gatoAtualizado.length == 0) {
