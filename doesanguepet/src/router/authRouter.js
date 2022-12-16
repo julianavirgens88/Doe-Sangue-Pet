@@ -6,7 +6,7 @@ const userController = require("../controller/userController")
 
 const { checkAuth } = require("../middlewares/auth");
 
-//rotas de users
+
 router.get("/all", checkAuth, userController.getAll);
 router.post("/create", userController.createUser);
 router.post("/login", authController.login);

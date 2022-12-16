@@ -1,4 +1,4 @@
-const UserSchema = require('../models/userSchema')
+const UserSchema = require('../models/UserSchema')
 const bcrypt = require("bcrypt");
 
 const getAll = async (req, res) => {
@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
 
   if (emailExists) {
     return res.status(409).send({
-      message: 'Email já cadastrado, CONFLITOUUUU',
+      message: 'Email já cadastrado',
     })
   }
 
@@ -28,7 +28,7 @@ const createUser = async (req, res) => {
     const savedUser = await newUser.save()
 
     res.status(201).send({
-      message: 'Oiiiiii, seu user foi criado com mto sucesso lacrou',
+      message: 'User criado com sucesso',
       savedUser,
     })
   } catch (err) {

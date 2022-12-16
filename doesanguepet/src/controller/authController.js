@@ -1,4 +1,4 @@
-const UserSchema = require('../models/userSchema'); // importei o model
+const UserSchema = require('../models/UserSchema'); // importei o model
 const bcrypt = require('bcrypt'); // importei o bcrypt para criptografar a senha
 const jwt = require('jsonwebtoken'); // importei o jwt para gerar o token
 
@@ -8,7 +8,7 @@ const login = (req, res) => {
     try {
         
         UserSchema.findOne({ email: req.body.email }, (error, user) => {
-            console.log("USUARIO EH ESSE AKI", user)
+            console.log("Esse é o usuário", user)
             if(!user) {
                 return res.status(404).send({
                     message: 'Usuário não encontrado',
@@ -20,21 +20,21 @@ const login = (req, res) => {
             // eu preciso saber se as senhas deles tambem sao iguais
             
             const validPassword = bcrypt.compareSync(req.body.password, user.password)
-            console.log("A SENHA EH VALIDA AMOR?", validPassword)
+            console.log("Senha válida", validPassword)
             
             if(!validPassword){
                 return res.status(401).send({
-                message: "Amor, sua senha esta invalida",
+                message: "Senha inválida",
                 statusCode: 401
                 })
             }
             
             // jwt.sign(nome do usuário, SEGREDO)
             const token = jwt.sign({name: user.name}, SECRET);
-            console.log("O TOKEN EH ESSE AKI", token)
+            console.log("O token é esse", token)
             
             res.status(200).send({
-                message: "Amor, vc esta logadah",
+                message: "Você está logado",
                 token
             })
         })
