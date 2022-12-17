@@ -43,8 +43,6 @@ Desenvolvida utilizando JavaScript e Node.js, uma API que conta com dois CRUDs. 
     
 ##  📂 ARQUITETURA MVC
 ```
-📁DOE SANGUE PET
-   
    |-📑 .vercel
    |-📑 project.json
    |-📑 README.md
