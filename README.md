@@ -44,8 +44,6 @@ Desenvolvida utilizando JavaScript e Node.js, uma API que conta com dois CRUDs. 
 ##  📂 ARQUITETURA MVC
 ```
 📁DOE SANGUE PET
-   |
-   |- 📁 doesanguepet
    
    |-📑 .vercel
    |-📑 project.json
