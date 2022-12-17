@@ -1,3 +1,11 @@
+require('dotenv').config() 
 const app = require("./src/app.js")
+const PORT = process.env.PORT; 
 
-app.listen(8080,() => console.log ("projeto chegando!"))
+app.get('/',function(req, res){
+    res.send({
+        mensage: 'primeiro get'
+    })
+})
+
+app.listen(PORT,() => console.log (`Servidor rodando na porta ${PORT} `));
