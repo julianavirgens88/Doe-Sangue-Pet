@@ -4,7 +4,7 @@
 </h1.>
 
 <p align="center">
-<img src= "![CAPA PROJETO](https://user-images.githubusercontent.com/109418568/208764549-edeed592-727b-4720-b887-bb96b48095b2.png)"width="50%" height="50%"/></p>
+<img src= "https://user-images.githubusercontent.com/109418568/208764549-edeed592-727b-4720-b887-bb96b48095b2.png"width="50%" height="50%"/></p>
 <br>
 
 <p align="justify"> Sejam muito bem vindos ao meu projeto final, desenvolvido como requisito para a conclusão do curso "Todas em Tech" da {reprograma}.
